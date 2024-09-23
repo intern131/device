@@ -1,22 +1,80 @@
-<!-- app.component.html -->
+<div class="container">
+  <!-- Bluetooth Control Button -->
+  <button
+    (click)="scanForDevices()"
+    [disabled]="isScanning || !bluetoothEnabled"
+    class="btn scan-btn"
+  >
+    {{ isScanning ? 'Scanning...' : 'Scan for Devices' }}
+  </button>
 
-<div>
-  <button (click)="scanPairedDevices()">Scan Paired Devices</button>
-  <button (click)="scanUnpairedDevices()">Scan Unpaired Devices</button>
+  <!-- Display connected device and disconnect option -->
+  <div *ngIf="connectedDevice" class="connected-device">
+    <h2>
+      Connected to: {{ getDeviceName(connectedDevice) }}
+      ({{ connectedDevice.address }})
+    </h2>
+    <button (click)="disconnect()" class="btn disconnect-btn">
+      Disconnect
+    </button>
 
-  <h2>Paired Devices:</h2>
+    <!-- Display battery level dynamically -->
+    <div *ngIf="connectedDevice.batteryLevel !== null" class="battery-status">
+      <p>Battery Level: {{ connectedDevice.batteryLevel }}%</p>
+    </div>
+
+    <!-- Send Data Section -->
+    <div class="data-section">
+      <h3>Send Data to Device</h3>
+      <input type="file" (change)="onFileSelected($event)" />
+      <button
+        (click)="sendData()"
+        [disabled]="!selectedFile"
+        class="btn send-btn"
+      >
+        Send Data
+      </button>
+    </div>
+
+    <!-- Received Data Display Area -->
+    <div class="data-display">
+      <h3>Received Data:</h3>
+      <textarea rows="5" cols="50" readonly>{{ receivedData }}</textarea>
+    </div>
+  </div>
+
+  <!-- Paired Devices List -->
+  <h2>Paired Devices</h2>
   <ul>
-    <li *ngFor="let device of devices">
-      {{ device.name }} ({{ device.address }})
-      <button (click)="connectToDevice(device.address)">Connect</button>
+    <li *ngFor="let device of pairedDevices; trackBy: trackByAddress">
+      {{ getDeviceName(device) }} ({{ device.address }})
+      <span *ngIf="device.batteryLevel !== null">
+        - Battery: {{ device.batteryLevel }}%
+      </span>
+      <!-- Show connect button if not currently connected -->
+      <button
+        *ngIf="!connectedDevice || connectedDevice.address !== device.address"
+        (click)="connectToDevice(device)"
+        class="btn connect-btn"
+      >
+        Connect
+      </button>
     </li>
+    <li *ngIf="pairedDevices.length === 0">No paired devices found.</li>
   </ul>
 
-  <h2>Unpaired Devices:</h2>
+  <!-- Unpaired Devices List -->
+  <h2>Unpaired Devices</h2>
   <ul>
-    <li *ngFor="let device of unpairedDevices">
-      {{ device.name }} ({{ device.address }})
-      <button (click)="connectToDevice(device.address)">Connect</button>
+    <li *ngFor="let device of unpairedDevices; trackBy: trackByAddress">
+      {{ getDeviceName(device) }} ({{ device.address }})
+      <span *ngIf="device.batteryLevel !== null">
+        - Battery: {{ device.batteryLevel }}%
+      </span>
+      <button (click)="connectToDevice(device)" class="btn connect-btn">
+        Connect
+      </button>
     </li>
+    <li *ngIf="unpairedDevices.length === 0">No unpaired devices found.</li>
   </ul>
 </div>

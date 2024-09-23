@@ -1,15 +1,130 @@
-/* Add your styles here */
+/* Container styles */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
+}
 
-button {
-    margin: 5px;
+.btn {
+  margin: 10px;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  padding: 12px 18px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &:disabled {
+    background-color: #a5d6a7;
+    cursor: not-allowed;
   }
-  
-  ul {
-    list-style-type: none;
-    padding: 0;
+
+  &.disconnect-btn {
+    background-color: #f44336;
+
+    &:hover {
+      background-color: #d32f2f;
+    }
   }
-  
+
+  &.send-btn {
+    background-color: #2196f3;
+
+    &:hover {
+      background-color: #1976d2;
+    }
+  }
+
+  &.connect-btn {
+    background-color: #4caf50;
+
+    &:hover {
+      background-color: #45a049;
+    }
+  }
+
+  &.scan-btn {
+    background-color: #ff9800;
+
+    &:hover {
+      background-color: #fb8c00;
+    }
+  }
+}
+
+/* Connected device section */
+.connected-device {
+  background-color: #e0f7fa;
+  padding: 20px;
+  border: 1px solid #b2ebf2;
+  border-radius: 8px;
+  margin: 20px 0;
+  width: 100%;
+  max-width: 600px;
+
+  h2 {
+    margin-bottom: 15px;
+  }
+
+  .battery-status {
+    margin-top: 10px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  .data-section {
+    margin-top: 20px;
+
+    h3 {
+      margin-bottom: 10px;
+    }
+
+    input[type='file'] {
+      margin-bottom: 10px;
+    }
+  }
+
+  .data-display {
+    margin-top: 20px;
+
+    textarea {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+    }
+  }
+}
+
+/* Device lists */
+ul {
+  list-style-type: none;
+  padding: 0;
+  width: 100%;
+  max-width: 500px;
+
   li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f2f2f2;
     margin-bottom: 10px;
+    padding: 15px;
+    border-radius: 8px;
+
+    &:hover {
+      background-color: #e6e6e6;
+    }
+
+    .btn {
+      padding: 8px 12px;
+      font-size: 14px;
+    }
   }
-  
+}
+
+h2 {
+  color: #333;
+  margin-top: 30px;
+}
